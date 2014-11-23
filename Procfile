@@ -1,1 +1,1 @@
-web:  java -cp target/classes:target/dependency/* org.haodev.latex.LatexServer
+web:  java -cp target/classes:target/dependency/* org.haodev.tex.TexServer

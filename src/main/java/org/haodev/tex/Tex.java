@@ -1,4 +1,4 @@
-package org.haodev.latex;
+package org.haodev.tex;
 
 import be.ugent.caagt.jmathtex.TeXConstants;
 import be.ugent.caagt.jmathtex.TeXFormula;
@@ -13,8 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class Latex {
-  public static byte[] generateLatexImage(String formula, float size) {
+public class Tex {
+  public static byte[] generateTexImage(String formula, float size) {
     try {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       TeXFormula texFormula = new TeXFormula(formula);

@@ -1,9 +1,8 @@
-package org.haodev.latex;
+package org.haodev.tex;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.haodev.latex.Latex;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLDecoder;
@@ -14,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LatexServer extends HttpServlet {
+public class TexServer extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
@@ -28,7 +27,7 @@ public class LatexServer extends HttpServlet {
       }
       String size = map.get("size");
       String formula = map.get("formula");
-      byte[] data = Latex.generateLatexImage(formula, Float.parseFloat(size));
+      byte[] data = Tex.generateTexImage(formula, Float.parseFloat(size));
       resp.setStatus(HttpServletResponse.SC_OK);
       resp.setContentType("image/png");
       resp.setContentLength(data.length);
@@ -49,7 +48,7 @@ public class LatexServer extends HttpServlet {
     ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
     context.setContextPath("/");
     server.setHandler(context);
-    context.addServlet(new ServletHolder(new LatexServer()),"/latex");
+    context.addServlet(new ServletHolder(new TexServer()),"/tex");
     server.start();
     server.join();
   }
