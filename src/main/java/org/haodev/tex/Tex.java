@@ -14,18 +14,23 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 public class Tex {
-  public static byte[] generateTexImage(String formula, float size) {
+  public static byte[] generateTexImage(String formula, float size, int r,
+      int g, int b, int a) {
     try {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       TeXFormula texFormula = new TeXFormula(formula);
+      texFormula.setColor(new Color(
+        r / 255f,
+        g / 255f,
+        b / 255f,
+        a / 255f
+      ));
       TeXIcon icon = texFormula.createTeXIcon(TeXConstants.STYLE_DISPLAY, size);
       JComponent component = new JPanel();
-      component.setForeground(Color.BLACK);
       BufferedImage image = new BufferedImage(icon.getIconWidth() + 10,
           icon.getIconHeight() + 10, BufferedImage.TYPE_INT_ARGB);
       Graphics graphics = image.getGraphics();
       icon.paintIcon(component, graphics, 5, 5);
-
       ImageIO.write(image, "PNG", baos);
       return baos.toByteArray();
     } catch (IOException e) {

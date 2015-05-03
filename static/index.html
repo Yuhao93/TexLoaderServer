@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TexLoader</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans"
+        rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css"
+        href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://jmblog.github.com/color-themes-for-google-code-prettify/css/themes/github.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+  </head>
+    <div class="content">
+      <div class="side-bar">
+        <h1 class="title text-center">TexLoader</h1>
+        <ul class="nav nav-stacked nav-pills">
+          <li role="presentation" class="active"><a href="#home">Home</a></li>
+          <li role="presentation">
+            <a href="#tutorial">Tutorial</a>
+          </li>
+          <li role="presentation">
+            <a href="#api">API</a>
+          </li>
+          <li role="presentation">
+            <a href="#download">Download</a>
+          </li>
+        </ul>
+      </div>
+      <div class="page shown" id="home">
+        <div class="inner center vertical-center">
+          <h1 class="text-center">TexLoader<h1>
+          <h2 class="text-center">
+            The <eq>cos(\pi/2)</eq> effort Tex API
+          </h2>
+          <h4>Step 1: Include the TexLoader javascript file</h4>
+          <pre class="prettyprint lang-html">&lt;script type="text/javascript" src="//texloader.herokuapp.com/tex.js"&gt;&lt;/script&gt;</pre>
+          <h4>Step 2: Embed equations in the &lt;eq&gt; tag</h4>
+          <pre class="prettyprint lang-html">&lt;p&gt;Embedding Tex equations in text is easy! &lt;eq&gt;e^{i\pix}=cos(x)+isin(x)&lt;/eq&gt; See?&lt;p&gt;</pre>
+          <h4>
+            Step 3: Convert all &lt;eq&gt; tags into formatted equations with
+            one line of javascript
+          </h4>
+          <pre class="prettyprint lang-js">haodev.tex.convertEquations();</pre>
+          <h4 class="text-center">The result</h4>
+          <p class="text-center">
+            Embedding Tex equations in text is easy!
+            <eq>e^{i\pix}=cos(x)+isin(x)</eq> See?
+          </p>
+        </div>
+      </div>
+      <div class="page" id="tutorial">
+        <div class="inner">
+          <h1>How to use</h1>
+          <h2>The script</h2>
+          <p>Include the script in your html code.</p>
+          <pre class="prettyprint lang-html">&lt;script type="text/javascript" src="//texloader.herokuapp.com/tex.js"&gt;&lt;/script&gt;</pre>
+          
+          <h2>Place equations in &lt;eq&gt; tags</h2>
+          <p>
+            In actuality, you can place the equations in any kind of tags.
+            If you want to use something else, you must provide the appropriate
+            selector to the javascript function below.
+          </p>
+          <pre class="prettyprint lang-html">&lt;p&gt;Embedding Tex equations in text is easy! &lt;eq&gt;e^{i\pix}=cos(x)+isin(x)&lt;/eq&gt; See?&lt;p&gt;</pre>
+          <h2>Call the <code>convertEquations</code> javascript function</h2>
+          <p>The function has two optional parameters.</p>
+          <ul>
+            <li>
+              opt_query: The CSS selector query used to find all equation tags.
+              If left undefined or null, it will default to "eq".
+            </li>
+            <li>
+              opt_container: The container to search in. If left undefined or
+              null, it will default to the entire document.
+            </li>
+          </ul>
+          <pre class="prettyprint lang-js">haodev.tex.convertEquations();</pre>
+          <p>
+            Selecting different equations or from a specific container will
+            look like this:
+          </p>
+          <pre class="prettyprint lang-js">haodev.tex.convertEquations('span.equation', document.getElementById('container'));</pre>
+          <p>
+            The above code will turn only the text found inside span elements
+            that have the "equation" class inside an element with id "container"
+            into equations. Note: selected tags will be removed once the 
+            equation has been loaded.
+          </p>
+          <h1>Font Size</h1>
+          <p>
+            You may have noticed that font size isn't a required input. This
+            is because the TexLoader script automatically uses the calculated
+            font size for the element to determine what size the equation
+            will be. The calculated font size is obtained at the time the
+            javascript function is called.
+          </p>
+          <h3>Any font size is supported:</h3>
+          <p class="small">10pt font: <eq>e^{i\pix}=cos(x)+isin(x)</eq></p>
+          <p class="med">20pt font: <eq>e^{i\pix}=cos(x)+isin(x)</eq></p>
+          <p class="large">30pt font: <eq>e^{i\pix}=cos(x)+isin(x)</eq></p>
+          <p class="xl">40pt font: <eq>e^{i\pix}=cos(x)+isin(x)</eq></p>
+
+          <h1>Equations are transparent PNG images</h1>
+          <p class="red">Example of a colored background <eq>cos(x)</eq></p>
+          <h3>
+            You can directly generate an image tag using the javascript
+            function <code>equation</code>
+          </h3>
+          <p>The function has two parameters.</p>
+          <ul>
+            <li>equation: The tex equation to render</li>
+            <li>size: The font size to render it</li>
+          </ul>
+          <p>
+            The function returns an image object that once loaded, will
+            contain the equation.
+          </p>
+          <pre class="prettyprint lang-js">var img = haodev.tex.equation('e^{x}', 24);</pre>
+          <h1>Images are obtained from a REST API</h1>
+          <p>
+            All images are generated by a REST API. You can directly call
+            it if you want to.
+          </p> 
+          <code>http://texloader.herokuapp.com/tex?formula={eq}&amp;size={sz}</code>
+          <ul>
+            <li>eq: The urlencoded tex equation</li>
+            <li>sz: The font size of the tex equation image</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page" id="api">
+      </div>
+      <div class="page" id="download">
+      </div>
+    </div>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script type="text/javascript" src="/tex.js"></script>
+    <script type="text/javascript" src="/script.js"></script>
+  </body>
+</html>

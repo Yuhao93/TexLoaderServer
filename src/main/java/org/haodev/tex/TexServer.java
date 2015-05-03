@@ -27,7 +27,14 @@ public class TexServer extends HttpServlet {
       }
       String size = map.get("size");
       String formula = map.get("formula");
-      byte[] data = Tex.generateTexImage(formula, Float.parseFloat(size));
+      String color = map.get("color");
+      long cl = Long.parseLong(color, 16) & 0xFFFFFFFF;
+      int r = (int) ((cl >> 16) & 0xFF);
+      int g = (int) ((cl >> 8) & 0xFF);
+      int b = (int) (cl & 0xFF);
+      int a = (int) ((cl >> 24) & 0xFF);
+      byte[] data = Tex.generateTexImage(formula, Float.parseFloat(size),
+          r, g, b, a);
       resp.setStatus(HttpServletResponse.SC_OK);
       resp.setContentType("image/png");
       resp.setContentLength(data.length);
@@ -45,10 +52,23 @@ public class TexServer extends HttpServlet {
       port = "8000";
     }
     Server server = new Server(Integer.valueOf(port));
-    ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+    ServletContextHandler context =
+        new ServletContextHandler(ServletContextHandler.SESSIONS);
     context.setContextPath("/");
     server.setHandler(context);
     context.addServlet(new ServletHolder(new TexServer()),"/tex");
+    context.addServlet(new ServletHolder(
+        new StaticServer("static/index.html", "text/html")), "/");
+    context.addServlet(new ServletHolder(
+        new StaticServer("static/script.js", "text/javascript")), "/script.js");
+    context.addServlet(new ServletHolder(
+        new StaticServer("static/texloader/src/texloader.js",
+            "text/javascript")), "/tex.js");
+    context.addServlet(new ServletHolder(
+        new StaticServer("static/texloader/closure/TexLoader.js",
+            "text/javascript")), "/tex-closure.js");
+    context.addServlet(new ServletHolder(
+        new StaticServer("static/style.css", "text/css")), "/style.css");
     server.start();
     server.join();
   }
